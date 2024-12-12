@@ -1,0 +1,16 @@
+{
+    "tickers": [
+        "AAPL", "ABBV", "ABT", "ADBE", "AMZN", "AZN", "BABA", "BP", "BRK-B", "CMCSA", 
+        "CSCO", "CVX", "DHR", "DIS", "GSK", "GOOGL", "HD", "HON", "HSBC", "INTC", 
+        "JNJ", "JPM", "KO", "LLY", "MA", "MCD", "META", "MRK", "MSFT", "NFLX", 
+        "NKE", "NVDA", "NSRGY", "ORCL", "PEP", "PFE", "PG", "SHEL", "SNY", "TMO", 
+        "TTE", "TSLA", "TSM", "TXN", "UNH", "V", "VZ", "WMT", "XOM", "ADP", "AMGN"
+    ],
+    "start_date": "2016-01-01",
+    "end_date": "2020-12-31",
+    "risk_free_rate": 0.01,
+    "num_simulations": 10000,
+    "backtest_start_date": "2021-01-01",
+    "backtest_end_date": "2022-12-31",
+    "benchmark_symbol": "^GSPC"
+}
