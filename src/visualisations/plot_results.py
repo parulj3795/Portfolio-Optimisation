@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def plot_correlation_matrix(daily_returns, filename="Correlation_Matrix.png"):
+def plot_correlation_matrix(daily_returns, figsize=50, filename="Correlation_Matrix.png"):
     '''
     Plot the correlation matrix of asset returns.
     '''
-    plt.figure(figsize=(50,50))
+    plt.figure(figsize=(figsize,figsize))
     sns.heatmap(daily_returns.corr(), annot=True, cmap="coolwarm", fmt=".2f")
     plt.title("Correlation Matrix")
     plt.savefig(filename, bbox_inches='tight')

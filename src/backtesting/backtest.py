@@ -11,13 +11,14 @@ def backtest_portfolio(weights, daily_returns):
 
     return cumulative_returns
 
-def plot_backtest(cumulative_returns, filename='outputs/Portfolio_Backtest.png'):
+def plot_portfolio_vs_benchmark(cumulative_returns, benchmark_cumulative, benchmark_symbol, filename='outputs/Portfolio_vs_Benchmark.png'):
 
-    plt.figure(figsize=(10,6))
-    plt.plot(cumulative_returns, label='Portfolio')
-    plt.title('Portfolio Backtest: Cumulative Returns')
-    plt.xlabel('Date')
-    plt.ylabel('Cumulative Returns')
+    plt.figure(figsize=(10, 6))
+    plt.plot(cumulative_returns, label="Optimized Portfolio")
+    plt.plot(benchmark_cumulative, label=f"{benchmark_symbol} Benchmark", linestyle="--")
+    plt.title("Portfolio vs Benchmark")
+    plt.xlabel("Date")
+    plt.ylabel("Cumulative Returns")
     plt.legend()
     plt.grid()
     plt.savefig(filename, bbox_inches='tight')

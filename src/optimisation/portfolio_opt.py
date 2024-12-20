@@ -2,7 +2,17 @@ import numpy as np
 from scipy.optimize import minimize
 import pandas as pd
 
-def monte_carlo_optimisation(expected_return, covariance_matrix, risk_free_rate, num_simulations=10000):
+
+def generate_capped_weights(num_assets, cap):
+    '''
+    Generate random portfolio weights that strictly respect the allocation cap.
+    '''
+    while True:
+        weights = np.random.dirichlet(np.ones(num_assets))  # Generate random weights
+        if all(weights <= cap):  # Check if all weights are within the cap
+            return weights
+        
+def monte_carlo_optimisation(expected_return, covariance_matrix, risk_free_rate, num_simulations=10000, cap=0.2):
     '''
     Using MC optimisation for better portfolio optimisation and diversification.
     '''
@@ -11,10 +21,13 @@ def monte_carlo_optimisation(expected_return, covariance_matrix, risk_free_rate,
 
     for _ in range(num_simulations):
 
-        # Adding weight caps to ensure no asset gets an outsized allocation
-        weights = np.random.dirichlet(np.ones(num_assets))
-        #weights = np.clip(weights, 0, 0.2)  # Cap weights to 20% max
-        weights = weights / np.sum(weights)  # Normalize weights
+        # # Adding weight caps to ensure no asset gets an outsized allocation
+        # weights = np.random.dirichlet(np.ones(num_assets))
+        # weights = np.clip(weights, 0, 0.2)  # Cap weights to 20% max
+        # weights = weights / np.sum(weights)  # Normalize weights
+
+        # Generate weights that respect the cap
+        weights = generate_capped_weights(num_assets, cap)
 
         # Portfolio return
         portfolio_return = np.dot(weights, expected_return)

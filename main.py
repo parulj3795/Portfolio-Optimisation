@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
 
 from src.data.fetch_data import fetch_data, compute_daily_returns
 from src.optimisation.portfolio_opt import monte_carlo_optimisation, generate_efficient_frontier
-from src.backtesting.backtest import backtest_portfolio, plot_backtest, compute_portfolio_value
+from src.backtesting.backtest import backtest_portfolio, plot_portfolio_vs_benchmark, compute_portfolio_value
 from src.utils.helpers import compute_expected_returns, compute_covariance_matrix
 from src.visualisations.plot_results import plot_correlation_matrix, plot_weight_distribution
 
@@ -148,23 +148,11 @@ if backtest_start_date and backtest_end_date:
 
     # Perform backtest
     cumulative_returns = backtest_portfolio(optimal_weights, backtest_daily_returns)
-    plot_backtest(cumulative_returns, filename='outputs/Portfolio_Backtest.png')
-
     benchmark_data = yf.download(benchmark_symbol, start=backtest_start_date, end=backtest_end_date, auto_adjust=False, actions=False)['Adj Close']
     benchmark_returns = benchmark_data.pct_change().dropna()
     benchmark_cumulative = (1 + benchmark_returns).cumprod()
 
-    # Plot portfolio vs benchmark
-    plt.figure(figsize=(10, 6))
-    plt.plot(cumulative_returns, label="Optimized Portfolio")
-    plt.plot(benchmark_cumulative, label=f"{benchmark_symbol} Benchmark", linestyle="--")
-    plt.title("Portfolio vs Benchmark")
-    plt.xlabel("Date")
-    plt.ylabel("Cumulative Returns")
-    plt.legend()
-    plt.grid()
-    plt.savefig('outputs/Portfolio_vs_Benchmark.png', bbox_inches='tight')
-    plt.close()
+    plot_portfolio_vs_benchmark(cumulative_returns, benchmark_cumulative, benchmark_symbol)
 
 else:
     logger.warning("Backtest start and end dates not provided. Skipping backtesting.")
@@ -173,7 +161,7 @@ else:
 initial_investment = float(input("Enter your total investment amount (e.g., 10000): "))
 
 # Backtesting Period: Use test data (e.g., 2021-2024 returns)
-test_data = fetch_data(tickers, "2023-01-01", "2024-12-31")
+test_data = fetch_data(tickers, "2024-01-01", "2024-12-31")
 test_returns = compute_daily_returns(test_data)
 
 # Calculate final portfolio value and cumulative return
