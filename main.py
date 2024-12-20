@@ -150,7 +150,7 @@ if backtest_start_date and backtest_end_date:
     cumulative_returns = backtest_portfolio(optimal_weights, backtest_daily_returns)
     plot_backtest(cumulative_returns, filename='outputs/Portfolio_Backtest.png')
 
-    benchmark_data = yf.download(benchmark_symbol, start=backtest_start_date, end=backtest_end_date)['Adj Close']
+    benchmark_data = yf.download(benchmark_symbol, start=backtest_start_date, end=backtest_end_date, auto_adjust=False, actions=False)['Adj Close']
     benchmark_returns = benchmark_data.pct_change().dropna()
     benchmark_cumulative = (1 + benchmark_returns).cumprod()
 

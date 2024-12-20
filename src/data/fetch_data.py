@@ -6,7 +6,7 @@ def fetch_data(tickers, start_date, end_date):
     Fetch historical data for a list of tickers from Yahnoo Finance.
     Returns a DataFrame with adjusted close prices.
     '''
-    data = yf.download(tickers, start=start_date, end=end_date)['Adj Close']
+    data = yf.download(tickers, start=start_date, end=end_date, auto_adjust=False, actions=False)['Adj Close']
     return data
 
 def compute_daily_returns(data):
